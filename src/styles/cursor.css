@@ -1,0 +1,60 @@
+/* ============================================================
+   Spider cursor active class
+   ============================================================ */
+html.spider-cursor-active {
+  /* suppress native OS cursor; the SVG overlay handles it */
+  cursor: none !important;
+}
+
+/* Optional UI toggle: when user wants cursor off */
+html .spider-cursor-off {
+  cursor: default !important;
+}
+
+/* Focus ring when the native cursor would appear */
+@media (pointer: coarse) {
+  html.spider-cursor-active {
+    cursor: auto !important;
+  }
+}
+
+/* Reduce motion: freeze the spider in its last position, no animation */
+@media (prefers-reduced-motion: reduce) {
+  html.spider-cursor-active * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------
+   Focus-visible fallback: when keyboard navigation brings focus
+   to a button/link, a brief outline appears around the cursor spot
+   ------------------------------------------------------------- */
+.spider-cursor-active [role="button"]:focus-visible,
+.spider-cursor-active [role="link"]:focus-visible {
+  position: relative;
+}
+.spider-cursor-active [role="button"]:focus-visible::after,
+.spider-cursor-active [role="link"]:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 2px solid rgba(225, 29, 72, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.spider-cursor-active [role="button"]:focus-visible:focus-visible::after,
+.spider-cursor-active [role="link"]:focus-visible:focus-visible::after {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------
+   Touch / coarse pointer guard: hide on touch devices
+   ------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .spider-cursor {
+    display: none !important;
+  }
+}
